@@ -3,6 +3,7 @@ import UserInfoForm from './components/UserInfoForm';
 import QuestionCard from './components/QuestionCard';
 import ResultsScreen from './components/ResultsScreen';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import { QUESTIONS, TOTAL_QUESTIONS } from './constants';
 import type { Question, UserInfo } from './types';
 import { QuizState } from './types';
@@ -85,6 +86,7 @@ const App: React.FC = () => {
       <main className="w-full max-w-2xl mx-auto flex-grow flex items-center justify-center">
         {renderContent()}
       </main>
+      <Footer />
     </div>
   );
 };
