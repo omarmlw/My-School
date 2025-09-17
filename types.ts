@@ -1,4 +1,3 @@
-
 export enum Category {
   RELIGIOUS = '🕌 دينية',
   HEALTH = '🍎 صحية',
@@ -12,8 +11,15 @@ export interface Question {
   category: Category;
 }
 
+export interface UserInfo {
+  school: string;
+  stateName: string;
+  firstName: string;
+  lastName: string;
+}
+
 export enum QuizState {
-  START,
+  USER_INFO,
   IN_PROGRESS,
   FINISHED,
 }

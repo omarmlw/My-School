@@ -60,15 +60,16 @@ export const QUESTIONS: Question[] = [
   { text: 'هل قلت "عفوًا" عندما أخطأت؟', category: Category.SOCIAL_BEHAVIOR },
 ];
 
-export const getResultMessage = (score: number): string => {
+export const getResultMessage = (score: number, name?: string): string => {
+    const studentName = name ? ` يا ${name}` : '';
     if (score >= 5) {
-        return "رائع! ممتاز 👏";
+        return `رائع${studentName}! ممتاز 👏`;
     }
     if (score >= 3) {
-        return "أحسنت! جيد جدًا";
+        return `أحسنت${studentName}! جيد جدًا`;
     }
     if (score === 2) {
-        return "حسن، اجتهد أكثر 💪";
+        return `حسن${studentName}، اجتهد أكثر 💪`;
     }
-    return "متوسط، حاول مرة أخرى 😊";
+    return `متوسط${studentName}، حاول مرة أخرى 😊`;
 };

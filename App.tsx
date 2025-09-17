@@ -1,14 +1,15 @@
-
 import React, { useState, useCallback } from 'react';
-import StartScreen from './components/StartScreen';
+import UserInfoForm from './components/UserInfoForm';
 import QuestionCard from './components/QuestionCard';
 import ResultsScreen from './components/ResultsScreen';
+import Header from './components/Header';
 import { QUESTIONS, TOTAL_QUESTIONS } from './constants';
-import type { Question } from './types';
+import type { Question, UserInfo } from './types';
 import { QuizState } from './types';
 
 const App: React.FC = () => {
-  const [quizState, setQuizState] = useState<QuizState>(QuizState.START);
+  const [quizState, setQuizState] = useState<QuizState>(QuizState.USER_INFO);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [yesAnswers, setYesAnswers] = useState<number>(0);
@@ -22,7 +23,16 @@ const App: React.FC = () => {
     return newArray;
   };
 
-  const startQuiz = useCallback(() => {
+  const startQuiz = useCallback((newUserInfo: UserInfo) => {
+    setUserInfo(newUserInfo);
+    const shuffledQuestions = shuffleArray(QUESTIONS).slice(0, TOTAL_QUESTIONS);
+    setQuestions(shuffledQuestions);
+    setCurrentQuestionIndex(0);
+    setYesAnswers(0);
+    setQuizState(QuizState.IN_PROGRESS);
+  }, []);
+
+  const playAgain = useCallback(() => {
     const shuffledQuestions = shuffleArray(QUESTIONS).slice(0, TOTAL_QUESTIONS);
     setQuestions(shuffledQuestions);
     setCurrentQuestionIndex(0);
@@ -54,24 +64,27 @@ const App: React.FC = () => {
           />
         );
       case QuizState.FINISHED:
+        if (!userInfo) return null; // Should not happen
         return (
           <ResultsScreen
             score={yesAnswers}
             totalQuestions={questions.length}
-            onRestart={startQuiz}
+            onRestart={playAgain}
+            userInfo={userInfo}
           />
         );
-      case QuizState.START:
+      case QuizState.USER_INFO:
       default:
-        return <StartScreen onStart={startQuiz} />;
+        return <UserInfoForm onStart={startQuiz} />;
     }
   };
 
   return (
-    <div className="bg-amber-100 min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl mx-auto">
+    <div className="bg-amber-100 min-h-screen flex flex-col items-center justify-start p-4 pt-6">
+      {userInfo && <Header userInfo={userInfo} />}
+      <main className="w-full max-w-2xl mx-auto flex-grow flex items-center justify-center">
         {renderContent()}
-      </div>
+      </main>
     </div>
   );
 };

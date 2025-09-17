@@ -1,15 +1,16 @@
-
 import React from 'react';
 import { getResultMessage } from '../constants';
+import type { UserInfo } from '../types';
 
 interface ResultsScreenProps {
   score: number;
   totalQuestions: number;
   onRestart: () => void;
+  userInfo: UserInfo;
 }
 
-const ResultsScreen: React.FC<ResultsScreenProps> = ({ score, totalQuestions, onRestart }) => {
-  const resultMessage = getResultMessage(score);
+const ResultsScreen: React.FC<ResultsScreenProps> = ({ score, totalQuestions, onRestart, userInfo }) => {
+  const resultMessage = getResultMessage(score, userInfo.firstName);
   
   return (
     <div className="bg-white text-center p-8 md:p-12 rounded-3xl shadow-2xl border-4 border-yellow-300 animate-pop-in">
