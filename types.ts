@@ -16,6 +16,7 @@ export interface UserInfo {
   stateName: string;
   firstName: string;
   lastName: string;
+  grade: string;
 }
 
 export enum QuizState {

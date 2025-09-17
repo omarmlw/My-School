@@ -11,9 +11,18 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({ onStart }) => {
     stateName: '',
     firstName: '',
     lastName: '',
+    grade: 'السنة الأولى',
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const gradeLevels = [
+    'السنة الأولى',
+    'السنة الثانية',
+    'السنة الثالثة',
+    'السنة الرابعة',
+    'السنة الخامسة',
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({ ...prev, [name]: value }));
   };
@@ -75,6 +84,20 @@ const UserInfoForm: React.FC<UserInfoFormProps> = ({ onStart }) => {
             className="w-full p-3 text-lg border-2 border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
             required
           />
+        </div>
+        <div>
+           <select
+            name="grade"
+            value={userInfo.grade}
+            onChange={handleChange}
+            className="w-full p-3 text-lg border-2 border-slate-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            required
+            aria-label="المستوى الدراسي"
+          >
+            {gradeLevels.map(level => (
+              <option key={level} value={level}>{level}</option>
+            ))}
+          </select>
         </div>
         <button
           type="submit"
